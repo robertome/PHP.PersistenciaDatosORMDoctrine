@@ -1,0 +1,114 @@
+## create_user
+--------------------
+> php create_user.php
+Usage: create_user.php <username> <email> <password> [<enabled (true|false)>] [--json]
+
+> php create_user.php username
+Usage: create_user.php <username> <email> <password> [<enabled (true|false)>] [--json]
+
+> php create_user.php username email
+Usage: create_user.php <username> <email> <password> [<enabled (true|false)>] [--json]
+
+> php create_user.php username1 email1@upm.es password1
+Creado Usuario:
+id: 15, username: username1, email: email1@upm.es, enabled: false, isAdmin: false
+
+> php create_user.php username1 email1@upm.es password1
+An exception occurred while executing 'INSERT INTO users (username, email, enabled, admin, password) VALUES (?, ?, ?, ?, ?)' with params ["username1", "email1@upm.es", 0, 0, "$2y$10$n2zEST14wUPrymc
+vEzW7BeYIXerzyco3ZOt\/u2ZYCW4D1ksEWjbbi"]:
+SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'username1' for key 'IDX_UNIQ_USER'
+
+> php create_user.php username2 email2@upm.es password2 --json
+Creado Usuario:
+{
+    "id": 16,
+    "username": "username2",
+    "email": "email2@upm.es",
+    "enabled": false,
+    "admin": false
+}
+
+> php create_user.php username3 email3@upm.es password3 true
+Creado Usuario:
+id: 17, username: username3, email: email3@upm.es, enabled: true, isAdmin: false
+
+> php create_user.php username4 email4@upm.es password4 false --json
+Creado Usuario:
+{
+    "id": 29,
+    "username": "username4",
+    "email": "email4@upm.es",
+    "enabled": false,
+    "admin": false
+}
+
+> php create_user.php --json username5 email5@upm.es password5 true
+{
+    "id": 30,
+    "username": "username5",
+    "email": "email5@upm.es",
+    "enabled": false,
+    "admin": false
+}
+
+> php create_user.php --json username5 email5@upm.es password5 true true
+Usage: create_user.php <username> <email> <password> [<enabled (true|false)>] [--json]
+
+
+## update_user
+--------------------
+> php update_user.php <userId> <username> <email> <password> [<enabled (true|false)>] [--json]
+> php update_user.php <userId> <username> <email> <password> [<enabled (true|false)>] [--json]
+> php update_user.php <userId> <username> <email> <password> [<enabled (true|false)>] [--json]
+> php update_user.php <userId> <username> <email> <password> [<enabled (true|false)>] [--json]
+> php update_user.php <userId> <username> <email> <password> [<enabled (true|false)>] [--json]
+> php update_user.php <userId> <username> <email> <password> [<enabled (true|false)>] [--json]
+> php update_user.php <userId> <username> <email> <password> [<enabled (true|false)>] [--json]
+> php update_user.php <userId> <username> <email> <password> [<enabled (true|false)>] [--json]
+> php update_user.php <userId> <username> <email> <password> [<enabled (true|false)>] [--json]
+
+
+## read_user
+--------------------
+> php read_user.php <userId> [--json]
+
+## list_users
+--------------------
+> php list_users.php [--json]
+
+## delete_user
+--------------------
+> php delete_user.php <userId> [--json]
+
+
+
+
+## create_result
+--------------------
+> php create_result.php <result> <userId> [<timestamp>] [--json]
+
+## update_result
+--------------------
+> php update_result.php <resultId> <result> [<timestamp>] [--json]
+
+## read_result
+--------------------
+> php read_result.php <resultId> [--json]
+
+## list_results
+--------------------
+> php list_results.php [--json]
+
+## delete_result
+--------------------
+> php delete_result.php <resultId> [--json]
+
+
+
+
+
+
+
+
+
+
