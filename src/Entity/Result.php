@@ -107,7 +107,7 @@ class Result implements \JsonSerializable
     /**
      * @return int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -121,11 +121,11 @@ class Result implements \JsonSerializable
     public function __toString(): string
     {
         return sprintf(
-            'id: %3d result: %3d username: %3d time: %s ',
+            'id: %3d result: %3d time: %s user: [%s]',
             $this->id,
             $this->result,
-            $this->user->getUsername(),
-            $this->getTimeFormatted()
+            $this->getTimeFormatted(),
+            $this->user
         );
     }
 
@@ -191,7 +191,7 @@ class Result implements \JsonSerializable
         $this->time = $time;
     }
 
-    public function update(Result $result): void
+    public function merge(Result $result): void
     {
         $this->setResult($result->getResult() ?? $this->getResult());
         $this->setTime($result->getTime() ?? $this->getTime());

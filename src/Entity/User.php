@@ -202,7 +202,7 @@ class User implements \JsonSerializable
     /**
      * @return int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -279,7 +279,7 @@ class User implements \JsonSerializable
         $this->isAdmin = $isAdmin;
     }
 
-    public function update(User $user): void
+    public function merge(User $user): void
     {
         $this->setUsername($user->getUsername() ?? $this->getUsername());
         $this->setEmail($user->getEmail() ?? $this->getEmail());

@@ -6,7 +6,6 @@
  */
 
 use MiW\Results\Entity\User;
-use MiW\Results\ParamsUtils;
 use MiW\Results\Service\UserService;
 use MiW\Results\Utils;
 
@@ -33,7 +32,7 @@ $enabled = !empty($options[4]) ? ($options[4] === 'true') : false;
 $user = new User($username, $email, $password, $enabled, false);
 try {
     $userService = new UserService();
-    $userService->create($user);
+    $user = $userService->create($user);
 
     echo 'Creado Usuario: ' . PHP_EOL;
     if (!$jsonFlag) {

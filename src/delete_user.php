@@ -5,7 +5,6 @@
  * @category Scripts
  */
 
-use MiW\Results\ParamsUtils;
 use MiW\Results\Service\UserService;
 use MiW\Results\Utils;
 
@@ -14,17 +13,18 @@ require __DIR__ . '/../vendor/autoload.php';
 // Carga las variables de entorno
 $dotenv = Utils::loadEnvFile(__DIR__ . '/..');
 
-$options = array_values(array_filter($argv, function($value) { return '--json' !== $value; }));
+$options = array_values(array_filter($argv, function ($value) {
+    return '--json' !== $value;
+}));
 $options_size = count($options);
 $jsonFlag = $argc != $options_size;
-if ($options_size > 2) {
+if ($options_size < 2 || $options_size > 3) {
     $fich = basename(__FILE__);
     echo "Usage: $fich <userId> [--json]";
 
     exit(0);
 }
-$userId = $options[1];
-
+$userId = (int)$options[1];
 try {
     $userService = new UserService();
     $user = $userService->deleteById($userId);

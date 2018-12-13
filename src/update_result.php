@@ -5,9 +5,8 @@
  * @category Scripts
  */
 
-use MiW\Results\Entity\User;
-use MiW\Results\ParamsUtils;
-use MiW\Results\Service\UserService;
+use MiW\Results\Entity\Result;
+use MiW\Results\Service\ResultService;
 use MiW\Results\Utils;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -15,24 +14,32 @@ require __DIR__ . '/../vendor/autoload.php';
 // Carga las variables de entorno
 $dotenv = Utils::loadEnvFile(__DIR__ . '/..');
 
-$options = array_values(array_filter($argv, function($value) { return '--json' !== $value; }));
+$options = array_values(array_filter($argv, function ($value) {
+    return '--json' !== $value;
+}));
 $options_size = count($options);
 $jsonFlag = $argc != $options_size;
 if ($options_size < 3 || $options_size > 4) {
     $fich = basename(__FILE__);
-    echo "Usage: $fich <resultId> <result> [<timestamp>] [--json]";
+    echo "Usage: $fich <resultId> <result> [<dateTime (YYYY-MM-DDTHH:mm:ss)>] [--json]";
 
     exit(0);
 }
-$resultId = $options[1];
-$result = $options[2];
-$timestamp = $options[3] ?? new DateTime('now');
-
-
-$result = new Result($newResult, $result, $newTimestamp);
+$resultId = (int)$options[1];
+$newResult = (int)$options[2];
+$dateTime = new DateTime('now');
 try {
-    $resultService = new UserService();
-    $resultService->update($resultId, $result);
+    $dateTime = !empty($options[3]) ? new DateTime($options[3]) : $dateTime;
+} catch (Exception $exception) {
+    echo 'Formato del parametro <dateTime> inesperado: ' . $exception->getMessage() . PHP_EOL;
+    exit(0);
+}
+
+
+$result = new Result($newResult, null, $dateTime);
+try {
+    $resultService = new ResultService();
+    $result = $resultService->update($resultId, $result);
 
     if (null === $result) {
         echo 'No existe Resultado con id: ' . $resultId;

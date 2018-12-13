@@ -28,11 +28,11 @@ if ($argc === 1) {
 
     /* @var Result $result */
     foreach ($results as $result) {
-        echo sprintf('%3s - %3s - %s - %22s',
+        echo sprintf('%3s - %3s - %s - %s',
                 $result->getId(),
                 $result->getResult(),
-                $result->getUser()->getUsername(),
-                $result->getTimeFormatted()) . PHP_EOL;
+                $result->getTimeFormatted(),
+                $result->getUser()->getUsername()) . PHP_EOL;
         $items++;
     }
     echo PHP_EOL . "Total: $items results.";

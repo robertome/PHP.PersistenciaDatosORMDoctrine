@@ -21,18 +21,25 @@ require __DIR__ . '/../vendor/autoload.php';
 // Carga las variables de entorno
 $dotenv = Utils::loadEnvFile(__DIR__ . '/..');
 
-$options = array_values(array_filter($argv, function($value) { return '--json' !== $value; }));
+$options = array_values(array_filter($argv, function ($value) {
+    return '--json' !== $value;
+}));
 $options_size = count($options);
 $jsonFlag = $argc != $options_size;
 if ($options_size < 3 || $options_size > 4) {
     $fich = basename(__FILE__);
-    echo "Usage: $fich <result> <userId> [<timestamp>] [--json]";
-
+    echo "Usage: $fich <result> <userId> [<dateTime (YYYY-MM-DDTHH:mm:ss)>] [--json]";
     exit(0);
 }
 $newResult = (int)$options[1];
 $userId = (int)$options[2];
-$newTimestamp = $options[3] ?? new DateTime('now');
+$dateTime = new DateTime('now');
+try {
+    $dateTime = !empty($options[3]) ? new DateTime($options[3]) : $dateTime;
+} catch (Exception $exception) {
+    echo 'Formato del parametro <dateTime> inesperado: ' . $exception->getMessage() . PHP_EOL;
+    exit(0);
+}
 
 
 /** @var User $user */
@@ -43,12 +50,12 @@ if (null === $user) {
     exit(0);
 }
 
-$result = new Result($newResult, $user, $newTimestamp);
+$result = new Result($newResult, $user, $dateTime);
 try {
     $resultService = new ResultService();
-    $resultService->create($result);
+    $result = $resultService->create($result);
 
-    echo 'Creado Resultado:';
+    echo 'Creado Resultado:' . PHP_EOL;
     if (!$jsonFlag) {
         echo $result . PHP_EOL;
     } else {

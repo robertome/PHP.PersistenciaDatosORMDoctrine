@@ -26,8 +26,8 @@ if (in_array('--json', $argv, true)) {
 } else {
     $items = 0;
     echo PHP_EOL . sprintf(
-            '%2s: %20s %30s %7s' . PHP_EOL,
-            'Id', 'Username:', 'Email:', 'Enabled:'
+            '%2s %20s %30s %7s' . PHP_EOL,
+            'Id', 'Username', 'Email', 'Enabled'
         );
 
     /** @var User $user */

@@ -5,8 +5,7 @@
  * @category Scripts
  */
 
-use MiW\Results\ParamsUtils;
-use MiW\Results\Service\UserService;
+use MiW\Results\Service\ResultService;
 use MiW\Results\Utils;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -14,16 +13,18 @@ require __DIR__ . '/../vendor/autoload.php';
 // Carga las variables de entorno
 $dotenv = Utils::loadEnvFile(__DIR__ . '/..');
 
-$options = array_values(array_filter($argv, function($value) { return '--json' !== $value; }));
+$options = array_values(array_filter($argv, function ($value) {
+    return '--json' !== $value;
+}));
 $options_size = count($options);
 $jsonFlag = $argc != $options_size;
-if ($options_size > 2) {
+if ($options_size < 2 || $options_size > 3) {
     $fich = basename(__FILE__);
     echo "Usage: $fich <resultId> [--json]";
 
     exit(0);
 }
-$resultId = $options[1];
+$resultId = (int)$options[1];
 
 try {
     $resultService = new ResultService();

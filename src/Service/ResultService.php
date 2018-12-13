@@ -14,31 +14,32 @@ class ResultService
 
     public function __construct()
     {
-        $this->entityManager = Utils::getEntityManager();
+        $this->entityManager = EntityManager::getInstance();
         $this->repository = $this->entityManager->getRepository(Result::class);
     }
 
-    public function create(Result $result)
+    public function create(Result $result): Result
     {
         $this->entityManager->persist($result);
         $this->entityManager->flush();
+        return $result;
     }
 
-    public function update(int $resultId, Result $result): Result
+    public function update(int $resultId, Result $result): ?Result
     {
         $currentResult = $this->findById($resultId);
         if (null === $currentResult) {
             return null;
         }
 
-        $currentResult->update($result);
+        $currentResult->merge($result);
 
         $this->entityManager->persist($currentResult);
         $this->entityManager->flush();
         return $currentResult;
     }
 
-    public function delete(Result $result): Result
+    public function delete(Result $result): ?Result
     {
         if (null === $result || null === $result->getId()) {
             return null;
@@ -49,9 +50,9 @@ class ResultService
         return $result;
     }
 
-    public function deleteById(int $resultId): Result
+    public function deleteById(int $resultId): ?Result
     {
-        $result = $this->repository->findById($resultId);
+        $result = $this->findById($resultId);
         if (null === $result) {
             return null;
         }

@@ -14,31 +14,32 @@ class UserService
 
     public function __construct()
     {
-        $this->entityManager = Utils::getEntityManager();
+        $this->entityManager = EntityManager::getInstance();
         $this->repository = $this->entityManager->getRepository(User::class);
     }
 
-    public function create(User $user)
+    public function create(User $user): User
     {
         $this->entityManager->persist($user);
         $this->entityManager->flush();
+        return $user;
     }
 
-    public function update(int $userId, User $user): User
+    public function update(int $userId, User $user): ?User
     {
         $currentUser = $this->findById($userId);
         if (null === $currentUser) {
             return null;
         }
 
-        $currentUser->update($user);
+        $currentUser->merge($user);
 
         $this->entityManager->persist($currentUser);
         $this->entityManager->flush();
         return $currentUser;
     }
 
-    public function delete(User $user): User
+    public function delete(User $user): ?User
     {
         if (null === $user || null === $user->getId()) {
             return null;
@@ -49,9 +50,9 @@ class UserService
         return $user;
     }
 
-    public function deleteById(int $userId): User
+    public function deleteById(int $userId): ?User
     {
-        $user = $this->repository->findById($userId);
+        $user = $this->findById($userId);
         if (null === $user) {
             return null;
         }
