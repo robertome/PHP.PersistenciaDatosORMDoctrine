@@ -1,3 +1,15 @@
+Aplicacion Web
+------------------
+
+> cd public
+> php -S localhost:8080
+
+Aplicacion Web utilizando FrontController, FastRoute (rutas), Controladores y Twig (motor de plantillas).
+
+Basada en el tutorial https://github.com/PatrickLouys/no-framework-tutorial
+
+
+
 --------------------
 Comandos para User
 --------------------

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Usuarios</h1>
+
+<div class="container">
+    <form action="create-user" method="POST" role="form" class="form-inline">
+        <div class="form-group">
+            <input id="username" class="form-control" name="username" type="text" placeholder="Username"
+                   required>
+        </div>
+        <div class="form-group">
+            <input id="email" class="form-control" name="email" type="email" placeholder="Email" required>
+        </div>
+        <div class="form-group">
+            <input id="password" class="form-control" name="password" type="password"
+                   placeholder="Contraseña" required>
+        </div>
+        <div class="checkbox">
+            <label><input id="enabled" name="enabled" type="checkbox"> Enabled</label>
+        </div>
+
+        <button id="create-user-btn" type="submit" class="btn btn-primary">Crear Usuario
+        </button>
+    </form>
+
+
+    <div class="container">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="row">Id</th>
+                <th scope="col">Username</th>
+                <th scope="col">Email</th>
+                <th scope="col">Enabled</th>
+                <th scope="col">Admin</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+            <tr>
+                <td> {{ user.id }}</td>
+                <td> {{ user.username }}</td>
+                <td> {{ user.email }}</td>
+                <td> {{ user.enabled ? 'true' : 'false' }}</td>
+                <td> {{ user.isAdmin ? 'true' : 'false' }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
